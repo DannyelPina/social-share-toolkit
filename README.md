@@ -26,6 +26,8 @@ A simple, lightweight, and fully typed library to make your web page shareable f
 
 ## Installation
 
+### npm
+
 ```bash
 npm install social-share
 ```
