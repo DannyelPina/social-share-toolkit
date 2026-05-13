@@ -1,1 +1,38 @@
+set +e
+
+# ── Branch name validation ───────────────────────────────────────
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+PATTERN="^(feature|bugfix|hotfix|chore|doc)/.+"
+
+if ! echo "$BRANCH" | grep -qE "$PATTERN"; then
+  echo ""
+  echo "-------------------------------------------------------"
+  echo "  COMMIT BLOCKED — Invalid branch name"
+  echo "-------------------------------------------------------"
+  echo ""
+  echo "  Current branch: $BRANCH"
+  echo ""
+  echo "  Branch names must start with one of:"
+  echo "    feature/   → a new feature"
+  echo "    bugfix/    → a bug fix"
+  echo "    hotfix/    → an urgent production fix"
+  echo "    chore/     → maintenance, dependencies, config"
+  echo "    doc/       → documentation changes"
+  echo ""
+  echo "  Examples:"
+  echo "    feature/add-whatsapp-button"
+  echo "    bugfix/fix-telegram-url"
+  echo "    hotfix/broken-facebook-link"
+  echo "    chore/update-dependencies"
+  echo "    doc/add-readme-examples"
+  echo ""
+  echo "  How to rename your current branch:"
+  echo "    git branch -m $BRANCH <new-branch-name>"
+  echo ""
+  echo "-------------------------------------------------------"
+  exit 1
+fi
+
+
 npm test
+npx lint-staged

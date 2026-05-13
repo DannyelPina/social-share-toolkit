@@ -28,8 +28,12 @@
   },
   "typesVersions": {
     "*": {
-      "react": ["./dist/react/index.d.ts"],
-      "vue":   ["./dist/vue/index.d.ts"]
+      "react": [
+        "./dist/react/index.d.ts"
+      ],
+      "vue": [
+        "./dist/vue/index.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -38,7 +42,8 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,vue}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,vue}\"",
     "prepare": "husky",
-    "test": "echo \"No tests yet\" && exit 0"
+    "test": "echo \"No tests yet\" && exit 0",
+    "commitlint": "commitlint --edit"
   },
   "peerDependencies": {
     "react": ">=17",
@@ -53,6 +58,8 @@
     }
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.0.1",
+    "@commitlint/core": "^21.0.1",
     "@types/node": "^25.7.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
