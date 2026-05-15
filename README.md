@@ -2,6 +2,11 @@
 
 A simple, lightweight, and fully typed library to make your web page shareable fast and easy. It allows you to include social share links for all major social networks into your **React** or **Vue** application with zero runtime dependencies.
 
+## Live demo - [Demonstration page](https://dannyelpina.github.io/social-share-toolkit-demo/)
+
+![Demo](./images/demo.png)
+![Interactive Live Demo](./images/interactive-demo.png)
+
 ---
 
 ## Table of Contents
