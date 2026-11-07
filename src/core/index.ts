@@ -1,7 +1,13 @@
 import networks from "./networks";
-import type { NetworkKey, NetworkInfo, ShareOptions } from "./types";
+import type {
+	NetworkKey,
+	NetworkInfo,
+	ShareOptions,
+	SocialShareButtonProps,
+	SocialShareBoxProps,
+} from "./types";
 
-export type { NetworkKey, NetworkInfo, ShareOptions };
+export type { NetworkKey, NetworkInfo, ShareOptions, SocialShareButtonProps, SocialShareBoxProps };
 export { networks };
 
 export function getShareUrl(networkName: NetworkKey, options: ShareOptions): string {

@@ -3,7 +3,13 @@ import SocialShareButton from "./SocialShareButton.vue";
 import SocialShareBox from "./SocialShareBox.vue";
 
 export { SocialShareButton, SocialShareBox };
-export type { NetworkKey, ShareOptions, NetworkInfo } from "../core/types";
+export type {
+	NetworkKey,
+	ShareOptions,
+	NetworkInfo,
+	SocialShareButtonProps,
+	SocialShareBoxProps,
+} from "../core/types";
 
 export default {
 	install(app: App): void {
