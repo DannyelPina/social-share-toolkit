@@ -7,8 +7,8 @@
 			:link="link"
 			:text="text"
 			:subject="subject"
-			:showLabel="showLabel"
-			:customStyle="buttonStyle"
+			:show-label="showLabel"
+			:custom-style="buttonStyle"
 		/>
 	</div>
 </template>
