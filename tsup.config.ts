@@ -9,7 +9,15 @@ export default defineConfig([
       "react/index": "src/react/index.ts",
     },
     format: ["esm", "cjs"],
-    dts: true,
+    // Vue types are bundled here too: this config's DTS step deletes every
+    // .d.ts in dist, so they can't be emitted by the Vue config below.
+    dts: {
+      entry: {
+        index:         "src/core/index.ts",
+        "react/index": "src/react/index.ts",
+        "vue/index":   "src/vue/index.d.ts",
+      },
+    },
     splitting: false,
     sourcemap: true,
     clean: true,
@@ -17,7 +25,7 @@ export default defineConfig([
     tsconfig: "tsconfig.build.json",
   },
 
-  // Vue — DTS disabled (we write types manually)
+  // Vue — DTS disabled (types are hand-written in src/vue/index.d.ts)
   {
     entry: {
       "vue/index": "src/vue/index.ts",
@@ -29,9 +37,5 @@ export default defineConfig([
     external: ["vue"],
     tsconfig: "tsconfig.build.json",
     esbuildPlugins: [vue()],
-    async onSuccess() {
-      const fs = await import("fs/promises");
-      await fs.copyFile("src/vue/index.d.ts", "dist/vue/index.d.ts");
-    },
   },
 ]);

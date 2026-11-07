@@ -1,0 +1,49 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Verifying changes
+
+Run all of these after a code change:
+
+- `npm run lint`
+- `npm run build`
+- `npx tsc --noEmit`
+
+`npm test` is a no-op because no tests exist yet (a test framework is planned). `tsc` does not check inside `.vue` files, and `vue-tsc` is not installed, so review Vue changes by hand. For behavior or UI changes, also check manually in the demo app, which lives in a separate repo (live at https://dannyelpina.github.io/social-share-toolkit-demo).
+
+## Git conventions
+
+Husky rejects commits that break these rules:
+
+- Branches: `feature/`, `bugfix/`, `hotfix/`, `chore/` or `doc/` followed by a name. This also blocks commits directly on `main`.
+- Commit messages: `<type>: <subject>`, all lower-case, with no scope. Types are `feat`, `fix`, `chore` and `doc`.
+
+Where `Docs/CONTRIBUTING.md` disagrees, follow these instead:
+
+- Use `fix` for bug-fix commits. `bugfix` and `hotfix` are valid only as branch prefixes.
+- PRs land with regular merge commits, not Squash and Merge.
+
+## Publishing
+
+Publishing is manual: the maintainer runs `npm run build`, then `npm publish`. Nothing builds `dist` automatically before publish. Never run `npm publish` yourself.
+
+## Architecture
+
+There are three entry points, each bundled with tsup: `src/core` (`.`), `src/react` (`./react`) and `src/vue` (`./vue`).
+
+- To add a network, update `NetworkKey` in `src/core/types.ts`, add its entry in `src/core/networks.ts`, and update the README tables. The components read from the registry.
+- `SocialShareButton` and `SocialShareBox` exist separately in React and Vue, so apply component changes to both.
+- Vue types are written by hand. Keep `src/vue/index.d.ts` in sync with the `.vue` components. It is bundled by the first config's `dts.entry` in `tsup.config.ts`, because that config's DTS step deletes every `.d.ts` in `dist`, so don't copy type files into `dist` from another config.
+- Vue components use `defineComponent` with `<script lang="ts">`, not `<script setup>`.
+
+## Code style
+
+Prettier and lint-staged only cover `src/**/*.{ts,tsx,vue}`, which use tabs. Root config files use 2 spaces and are not auto-formatted.
+
+## Known gotchas
+
+- The framework APIs differ. Vue `SocialShareButton` takes `customStyle` instead of `style` and has no `className` prop. Vue `SocialShareBox` has neither `style` nor `className` as props. In Vue, native `class` and `style` attributes fall through to the root element. Keep the README's React and Vue prop tables in step with the components.
+- Button components pass only `link`, `text` and `subject` to `getShareUrl`. As a result, `email` and `sms` (which read `body`) ignore `text`, and `pinterest` and `reddit` can't receive `title` or `media`. `viber` only uses `link`.
+- The README's CDN section loads the upstream `assisfery/SocialShareJS`, not this package.
+- `SocialShareButtonProps` and `SocialShareBoxProps` only cover props shared by React and Vue. Framework-specific props and `buttonStyle` are declared in each framework's component or, for Vue, in `src/vue/index.d.ts`.

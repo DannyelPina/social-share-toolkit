@@ -16,7 +16,7 @@ A simple, lightweight, and fully typed library to make your web page shareable f
     - [React](#react)
     - [Vue](#vue)
 - [Components](#components)
-    - [SocialShareButton](#socialsharebuttonprops)
+    - [SocialShareButton](#socialsharebutton-props)
     - [SocialShareBox](#socialsharebox-props)
 - [Core API](#core-api)
     - [getShareUrl](#getshareurlnetwork-options)
@@ -174,8 +174,13 @@ Renders a single share button for one social network.
 | `text`      | `string`        | `""`    | ❌       | Share text or tweet body           |
 | `subject`   | `string`        | `""`    | ❌       | Email subject (used with `email`)  |
 | `showLabel` | `boolean`       | `true`  | ❌       | Show the network name next to icon |
-| `style`     | `CSSProperties` | `{}`    | ❌       | Override button inline styles      |
-| `className` | `string`        | `""`    | ❌       | Add extra CSS class to button      |
+
+#### React props
+
+| Prop        | Type            | Default | Required | Description                   |
+| ----------- | --------------- | ------- | -------- | ----------------------------- |
+| `style`     | `CSSProperties` | `{}`    | ❌       | Override button inline styles |
+| `className` | `string`        | `""`    | ❌       | Add extra CSS class to button |
 
 **Example:**
 
@@ -186,6 +191,26 @@ Renders a single share button for one social network.
 	text="Hey, check this out!"
 	showLabel={false}
 	style={{ borderRadius: "50px" }}
+/>
+```
+
+#### Vue props
+
+| Prop          | Type            | Default | Required | Description                   |
+| ------------- | --------------- | ------- | -------- | ----------------------------- |
+| `customStyle` | `CSSProperties` | `{}`    | ❌       | Override button inline styles |
+
+The native `class` and `style` attributes are also applied to the button's `<a>` element.
+
+**Example:**
+
+```vue
+<SocialShareButton
+	network="whatsapp"
+	link="https://example.com"
+	text="Hey, check this out!"
+	:show-label="false"
+	:custom-style="{ borderRadius: '50px' }"
 />
 ```
 
@@ -205,8 +230,13 @@ Renders a row (or column) of multiple share buttons.
 | `direction`   | `"row" \| "column"` | `"row"` | ❌       | Flex direction of the button container    |
 | `gap`         | `string`            | `"8px"` | ❌       | Gap between buttons                       |
 | `buttonStyle` | `CSSProperties`     | `{}`    | ❌       | Override inline styles on every button    |
-| `className`   | `string`            | `""`    | ❌       | Add extra CSS class to the wrapper        |
-| `style`       | `CSSProperties`     | `{}`    | ❌       | Override inline styles on the wrapper     |
+
+#### React props
+
+| Prop        | Type            | Default | Required | Description                           |
+| ----------- | --------------- | ------- | -------- | ------------------------------------- |
+| `className` | `string`        | `""`    | ❌       | Add extra CSS class to the wrapper    |
+| `style`     | `CSSProperties` | `{}`    | ❌       | Override inline styles on the wrapper |
 
 **Example:**
 
@@ -219,6 +249,24 @@ Renders a row (or column) of multiple share buttons.
 	gap="12px"
 	showLabel={true}
 	buttonStyle={{ borderRadius: "8px", fontSize: "13px" }}
+/>
+```
+
+#### Vue props
+
+Vue has no extra props for `SocialShareBox`. To style the wrapper, use the native `class` and `style` attributes, which are applied to its `<div>` element.
+
+**Example:**
+
+```vue
+<SocialShareBox
+	link="https://example.com"
+	:socials="['facebook', 'twitter', 'linkedin', 'whatsapp']"
+	text="Check this out!"
+	direction="row"
+	gap="12px"
+	:show-label="true"
+	:button-style="{ borderRadius: '8px', fontSize: '13px' }"
 />
 ```
 
@@ -361,6 +409,8 @@ import type {
 	SocialShareBoxProps,
 } from "social-share-toolkit";
 ```
+
+`SocialShareButtonProps` and `SocialShareBoxProps` only cover props shared by React and Vue. They don't include `buttonStyle` or framework-specific props such as `style`, `className` and `customStyle`.
 
 **`NetworkKey`** — union of all valid network keys:
 
