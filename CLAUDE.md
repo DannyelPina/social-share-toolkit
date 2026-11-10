@@ -26,7 +26,9 @@ Where `Docs/CONTRIBUTING.md` disagrees, follow these instead:
 
 ## Publishing
 
-Publishing is manual: the maintainer runs `npm run build`, then `npm publish`. Nothing builds `dist` automatically before publish. Never run `npm publish` yourself.
+Publishing is manual: the maintainer runs `npm publish`, and `prepublishOnly` rebuilds `dist` first. Never run `npm publish` yourself.
+
+Each `exports` entry has separate `import` and `require` conditions, each with its own `types` (`.d.mts` or `.d.ts`). Keep that shape when adding an entry point; a single top-level `types` makes Node ESM consumers resolve CJS types.
 
 ## Architecture
 

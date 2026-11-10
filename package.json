@@ -1,6 +1,6 @@
 {
 	"name": "social-share-toolkit",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Social Share Toolkit is a versatile library for sharing content across various social media platforms, designed to work seamlessly with both React and Vue applications.",
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",
@@ -11,19 +11,34 @@
 	],
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.mjs",
-			"require": "./dist/index.js"
+			"import": {
+				"types": "./dist/index.d.mts",
+				"default": "./dist/index.mjs"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			}
 		},
 		"./react": {
-			"types": "./dist/react/index.d.ts",
-			"import": "./dist/react/index.mjs",
-			"require": "./dist/react/index.js"
+			"import": {
+				"types": "./dist/react/index.d.mts",
+				"default": "./dist/react/index.mjs"
+			},
+			"require": {
+				"types": "./dist/react/index.d.ts",
+				"default": "./dist/react/index.js"
+			}
 		},
 		"./vue": {
-			"types": "./dist/vue/index.d.ts",
-			"import": "./dist/vue/index.mjs",
-			"require": "./dist/vue/index.js"
+			"import": {
+				"types": "./dist/vue/index.d.mts",
+				"default": "./dist/vue/index.mjs"
+			},
+			"require": {
+				"types": "./dist/vue/index.d.ts",
+				"default": "./dist/vue/index.js"
+			}
 		}
 	},
 	"typesVersions": {
@@ -44,6 +59,7 @@
 		"lint": "eslint src",
 		"lint:fix": "eslint src --fix",
 		"prepare": "husky",
+		"prepublishOnly": "npm run build",
 		"test": "echo \"No tests yet\" && exit 0",
 		"commitlint": "commitlint --edit"
 	},
