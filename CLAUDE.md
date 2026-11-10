@@ -7,11 +7,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Run all of these after a code change:
 
 - `npm run lint`
-- `npm run build`
-- `npx tsc --noEmit`
+- `npm run typecheck` (`vue-tsc`, which also covers `.vue` files)
 - `npm test`
+- `npm run build`, then `npm run check:package` (publint and arethetypeswrong on the built package)
 
-Vitest tests live in `tests/` (not `src/`, which is published) and render components to strings with `react-dom/server` and `vue/server-renderer`, so there's no DOM environment. `tsc` does not check inside `.vue` files, and `vue-tsc` is not installed, so review Vue changes by hand. For behavior or UI changes, also check manually in the demo app, which lives in a separate repo (live at https://dannyelpina.github.io/social-share-toolkit-demo).
+CI (`.github/workflows/ci.yml`) runs the same commands plus `npm run format:check` on every PR, so keep the workflow and this list in step.
+
+Vitest tests live in `tests/` (not `src/`, which is published) and render components to strings with `react-dom/server` and `vue/server-renderer`, so there's no DOM environment. For behavior or UI changes, also check manually in the demo app, which lives in a separate repo (live at https://dannyelpina.github.io/social-share-toolkit-demo).
 
 ## Git conventions
 
