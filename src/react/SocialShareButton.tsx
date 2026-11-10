@@ -1,9 +1,16 @@
-import React, { CSSProperties } from "react";
+import React, { AnchorHTMLAttributes, CSSProperties } from "react";
 import { getShareUrl, networks } from "../core/index";
 import { isNetworkKey } from "../core/networks";
 import type { SocialShareButtonProps } from "../core/types";
 
-interface Props extends SocialShareButtonProps {
+// Other <a> attributes (onClick, aria-*, data-*, ...) are passed through. href is generated,
+// and title is the share title rather than the HTML attribute.
+type AnchorAttributes = Omit<
+	AnchorHTMLAttributes<HTMLAnchorElement>,
+	keyof SocialShareButtonProps | "href"
+>;
+
+interface Props extends SocialShareButtonProps, AnchorAttributes {
 	style?: CSSProperties;
 	className?: string;
 	children?: React.ReactNode;
@@ -21,6 +28,7 @@ export function SocialShareButton({
 	style = {},
 	className = "",
 	children,
+	...rest
 }: Props) {
 	// Render nothing rather than throw, e.g. while link is still loading
 	if (!isNetworkKey(network) || !link) return null;
@@ -46,12 +54,13 @@ export function SocialShareButton({
 
 	return (
 		<a
-			href={href}
 			target="_blank"
 			rel="noopener noreferrer"
+			aria-label={showLabel ? undefined : meta.label}
+			{...rest}
+			href={href}
 			style={baseStyle}
 			className={`ss-btn ss-${network} ${className}`.trim()}
-			aria-label={showLabel ? undefined : meta.label}
 		>
 			{children}
 			{showLabel && <span>{meta.label}</span>}

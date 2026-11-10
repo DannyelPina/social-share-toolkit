@@ -1,9 +1,13 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, HTMLAttributes } from "react";
 import { SocialShareButton } from "./SocialShareButton";
 import { getSupportedNetworks } from "../core/index";
 import type { SocialShareBoxProps } from "../core/types";
 
-interface Props extends SocialShareBoxProps {
+// Other <div> attributes (aria-*, data-*, id, ...) are passed through to the wrapper.
+// title is the share title rather than the HTML attribute.
+type DivAttributes = Omit<HTMLAttributes<HTMLDivElement>, keyof SocialShareBoxProps | "children">;
+
+interface Props extends SocialShareBoxProps, DivAttributes {
 	buttonStyle?: CSSProperties;
 	className?: string;
 	style?: CSSProperties;
@@ -23,12 +27,14 @@ export function SocialShareBox({
 	buttonStyle = {},
 	className = "",
 	style = {},
+	...rest
 }: Props) {
 	const allKeys = getSupportedNetworks().map((n) => n.key);
 	const keys = socials ?? allKeys;
 
 	return (
 		<div
+			{...rest}
 			className={`ss-box ${className}`.trim()}
 			style={{
 				display: "flex",
