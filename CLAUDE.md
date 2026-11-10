@@ -36,7 +36,9 @@ There are three entry points, each bundled with tsup: `src/core` (`.`), `src/rea
 
 - To add a network, update `NetworkKey` in `src/core/types.ts`, add its entry in `src/core/networks.ts`, and update the README tables. The components read from the registry.
 - `SocialShareButton` and `SocialShareBox` exist separately in React and Vue, so apply component changes to both.
-- Vue types are written by hand. Keep `src/vue/index.d.ts` in sync with the `.vue` components. It is bundled by the first config's `dts.entry` in `tsup.config.ts`, because that config's DTS step deletes every `.d.ts` in `dist`, so don't copy type files into `dist` from another config.
+- Vue types are written by hand. Keep `src/vue/index.d.ts` in sync with the `.vue` components. `tsup.config.ts` bundles it through `dts.entry`. Don't copy type files into `dist`, because tsup's DTS step deletes every `.d.ts` there.
+- `tsup.config.ts` is a single config with `splitting: true`, so the entry points share one core chunk per format. Splitting is experimental for CJS in tsup. After build changes, load the built entries with `require` and `import` to check them, because `npm test` only covers `src` and `npm run check:package` only checks types. Splitting it back into several configs brings back duplicated core code and the old DTS-deletion race.
+- `package.json` sets `"sideEffects": false`, so modules must not run code on import, such as CSS imports or global registration.
 - Vue components use `defineComponent` with `<script lang="ts">`, not `<script setup>`.
 
 ## Code style
