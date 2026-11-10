@@ -116,10 +116,15 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/DannyelPina/social-share-toolkit"
+		"url": "git+https://github.com/DannyelPina/social-share-toolkit.git"
 	},
-	"homepage": "https://github.com/DannyelPina/social-share-toolkit?#readme",
+	"homepage": "https://github.com/DannyelPina/social-share-toolkit#readme",
 	"bugs": {
 		"url": "https://github.com/DannyelPina/social-share-toolkit/issues"
+	},
+	"sideEffects": false,
+	"type": "commonjs",
+	"engines": {
+		"node": ">=16"
 	}
 }
