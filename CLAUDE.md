@@ -22,10 +22,7 @@ Husky rejects commits that break these rules:
 - Branches: `feature/`, `bugfix/`, `hotfix/`, `chore/` or `doc/` followed by a name. This also blocks commits directly on `main`.
 - Commit messages: `<type>: <subject>`, all lower-case, with no scope. Types are `feat`, `fix`, `chore` and `doc`.
 
-Where `Docs/CONTRIBUTING.md` disagrees, follow these instead:
-
-- Use `fix` for bug-fix commits. `bugfix` and `hotfix` are valid only as branch prefixes.
-- PRs land with regular merge commits, not Squash and Merge.
+`bugfix` and `hotfix` are valid only as branch prefixes, so use `fix` for bug-fix commits. PRs land with regular merge commits. `Docs/CONTRIBUTING.md` documents the same rules, so update both together.
 
 ## Publishing
 

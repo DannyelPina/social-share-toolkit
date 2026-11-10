@@ -24,7 +24,7 @@ A simple, lightweight, and fully typed library to make your web page shareable f
     - [getSupportedNetworks](#getsupportednetworks)
 - [Supported Networks](#supported-networks)
 - [TypeScript](#typescript)
-- [Contributing](#contributing)
+- [For Developers](#for-developers)
 - [License](#license)
 
 ---

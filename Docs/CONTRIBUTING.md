@@ -45,6 +45,7 @@ git push origin feature/your-feature-name
 **5. Wait for review**
 
 - Do not merge your own PR
+- Make sure the CI checks pass. They run lint, formatting, typecheck, tests, build and a package check on every PR
 - Address all comments left by reviewers
 - Push new commits to the same branch to update the PR — do not open a new one
 
@@ -52,7 +53,7 @@ git push origin feature/your-feature-name
 
 Once the PR is approved:
 
-- Merge it into `main` using **Squash and Merge** to keep the history clean
+- Merge it into `main` using **Create a merge commit**
 - Delete the remote branch immediately after merging — GitHub shows a "Delete branch" button right after the merge
 - (OPTIONAL) Delete your local branch too:
 
@@ -92,25 +93,28 @@ doc/add-readme-examples
 
 ### Commit Messages
 
-Commits must follow the pattern `<type>: <subject>` in lowercase:
+Commits must follow the pattern `<type>: <subject>`, all in lowercase and with no scope:
 
-| Type      | When to use                              |
-| --------- | ---------------------------------------- |
-| `feat`    | A new feature                            |
-| `bugfix`  | A bug fix                                |
-| `hotfix`  | An urgent production fix                 |
-| `chore`   | Maintenance, dependencies, configuration |
-| `doc`     | Documentation changes                    |
+| Type    | When to use                              |
+| ------- | ---------------------------------------- |
+| `feat`  | A new feature                            |
+| `fix`   | A bug fix, including urgent ones         |
+| `chore` | Maintenance, dependencies, configuration |
+| `doc`   | Documentation changes                    |
+
+`bugfix` and `hotfix` are branch prefixes only. Use `fix` as the commit type.
 
 **Examples:**
 
 ```
 feat: add pinterest share button
-bugfix: fix whatsapp url encoding
-hotfix: correct broken facebook share link
+fix: fix whatsapp url encoding
+fix: correct broken facebook share link
 chore: update dependencies
 doc: add usage examples to readme
 ```
+
+> The pre-commit hook also runs the tests and formats staged files, so a failing test blocks the commit.
 
 > Commits with an invalid message format will be rejected automatically by the commit hook.
 
