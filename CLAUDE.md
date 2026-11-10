@@ -9,8 +9,9 @@ Run all of these after a code change:
 - `npm run lint`
 - `npm run build`
 - `npx tsc --noEmit`
+- `npm test`
 
-`npm test` is a no-op because no tests exist yet (a test framework is planned). `tsc` does not check inside `.vue` files, and `vue-tsc` is not installed, so review Vue changes by hand. For behavior or UI changes, also check manually in the demo app, which lives in a separate repo (live at https://dannyelpina.github.io/social-share-toolkit-demo).
+Vitest tests live in `tests/` (not `src/`, which is published) and render components to strings with `react-dom/server` and `vue/server-renderer`, so there's no DOM environment. `tsc` does not check inside `.vue` files, and `vue-tsc` is not installed, so review Vue changes by hand. For behavior or UI changes, also check manually in the demo app, which lives in a separate repo (live at https://dannyelpina.github.io/social-share-toolkit-demo).
 
 ## Git conventions
 
@@ -46,6 +47,7 @@ Prettier and lint-staged only cover `src/**/*.{ts,tsx,vue}`, which use tabs. Roo
 ## Known gotchas
 
 - The framework APIs differ. Vue `SocialShareButton` takes `customStyle` instead of `style` and has no `className` prop. Vue `SocialShareBox` has neither `style` nor `className` as props. In Vue, native `class` and `style` attributes fall through to the root element. Keep the README's React and Vue prop tables in step with the components.
-- Button components pass only `link`, `text` and `subject` to `getShareUrl`. As a result, `email` and `sms` (which read `body`) ignore `text`, and `pinterest` and `reddit` can't receive `title` or `media`. `viber` only uses `link`.
+- Components must render nothing, never throw, for an empty `link` or unknown network. `getShareUrl` throws for both, so check first. Use `isNetworkKey` from `src/core/networks.ts` rather than `networks[key]`, which accepts `Object.prototype` keys like `constructor`.
+- Every `ShareOptions` field is a component prop, and `text` is the fallback for `body` and `title`. Leave `subject` undefined by default so the core's `"Check this out"` applies.
 - The README's CDN section loads the upstream `assisfery/SocialShareJS`, not this package.
 - `SocialShareButtonProps` and `SocialShareBoxProps` only cover props shared by React and Vue. Framework-specific props and `buttonStyle` are declared in each framework's component or, for Vue, in `src/vue/index.d.ts`.

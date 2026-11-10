@@ -1,6 +1,6 @@
 {
 	"name": "social-share-toolkit",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"description": "Social Share Toolkit is a versatile library for sharing content across various social media platforms, designed to work seamlessly with both React and Vue applications.",
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",
@@ -54,14 +54,15 @@
 	"scripts": {
 		"build": "tsup",
 		"dev": "tsup --watch",
-		"format": "prettier --write \"src/**/*.{ts,tsx,vue}\"",
-		"format:check": "prettier --check \"src/**/*.{ts,tsx,vue}\"",
-		"lint": "eslint src",
-		"lint:fix": "eslint src --fix",
+		"format": "prettier --write \"{src,tests}/**/*.{ts,tsx,vue}\"",
+		"format:check": "prettier --check \"{src,tests}/**/*.{ts,tsx,vue}\"",
+		"lint": "eslint src tests",
+		"lint:fix": "eslint src tests --fix",
 		"prepare": "husky",
 		"prepublishOnly": "npm run build",
-		"test": "echo \"No tests yet\" && exit 0",
-		"commitlint": "commitlint --edit"
+		"test": "vitest run",
+		"commitlint": "commitlint --edit",
+		"test:watch": "vitest"
 	},
 	"peerDependencies": {
 		"react": ">=17",
@@ -82,6 +83,7 @@
 		"@types/node": "^25.7.0",
 		"@types/react": "^18.0.0",
 		"@types/react-dom": "^18.0.0",
+		"@vitejs/plugin-vue": "^6.0.10",
 		"eslint": "^9.39.5",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-react-hooks": "^7.1.1",
@@ -96,6 +98,7 @@
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.72.1",
 		"unplugin-vue": "^7.2.0",
+		"vitest": "^5.1.0",
 		"vue": "^3.0.0"
 	},
 	"keywords": [

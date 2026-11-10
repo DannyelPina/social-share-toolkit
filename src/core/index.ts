@@ -1,4 +1,4 @@
-import networks from "./networks";
+import networks, { isNetworkKey } from "./networks";
 import type {
 	NetworkKey,
 	NetworkInfo,
@@ -11,8 +11,8 @@ export type { NetworkKey, NetworkInfo, ShareOptions, SocialShareButtonProps, Soc
 export { networks };
 
 export function getShareUrl(networkName: NetworkKey, options: ShareOptions): string {
+	if (!isNetworkKey(networkName)) throw new Error(`Unknown network: "${networkName}"`);
 	const network = networks[networkName];
-	if (!network) throw new Error(`Unknown network: "${networkName}"`);
 	if (!options.link) throw new Error("`options.link` is required.");
 	return network.url(options);
 }

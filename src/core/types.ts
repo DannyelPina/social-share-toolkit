@@ -37,6 +37,9 @@ export interface SocialShareButtonProps {
 	link: string;
 	text?: string;
 	subject?: string;
+	body?: string;
+	title?: string;
+	media?: string;
 	showLabel?: boolean;
 }
 
@@ -46,6 +49,9 @@ export interface SocialShareBoxProps {
 	socials?: NetworkKey[];
 	text?: string;
 	subject?: string;
+	body?: string;
+	title?: string;
+	media?: string;
 	showLabel?: boolean;
 	direction?: "row" | "column";
 	gap?: string;

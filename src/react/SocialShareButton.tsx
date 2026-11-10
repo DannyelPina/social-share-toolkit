@@ -1,5 +1,6 @@
 import React, { CSSProperties } from "react";
 import { getShareUrl, networks } from "../core/index";
+import { isNetworkKey } from "../core/networks";
 import type { SocialShareButtonProps } from "../core/types";
 
 interface Props extends SocialShareButtonProps {
@@ -12,16 +13,20 @@ export function SocialShareButton({
 	network,
 	link,
 	text = "",
-	subject = "",
+	subject,
+	body,
+	title,
+	media,
 	showLabel = true,
 	style = {},
 	className = "",
 	children,
 }: Props) {
+	// Render nothing rather than throw, e.g. while link is still loading
+	if (!isNetworkKey(network) || !link) return null;
 	const meta = networks[network];
-	if (!meta) return null;
 
-	const href = getShareUrl(network, { link, text, subject });
+	const href = getShareUrl(network, { link, text, subject, body, title, media });
 
 	const baseStyle: CSSProperties = {
 		display: "inline-flex",
@@ -46,6 +51,7 @@ export function SocialShareButton({
 			rel="noopener noreferrer"
 			style={baseStyle}
 			className={`ss-btn ss-${network} ${className}`.trim()}
+			aria-label={showLabel ? undefined : meta.label}
 		>
 			{children}
 			{showLabel && <span>{meta.label}</span>}
