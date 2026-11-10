@@ -165,15 +165,18 @@ export default defineComponent({
 
 ### `SocialShareButton` Props
 
-Renders a single share button for one social network.
+Renders a single share button for one social network. It renders nothing while `link` is empty or if `network` isn't supported.
 
-| Prop        | Type            | Default | Required | Description                        |
-| ----------- | --------------- | ------- | -------- | ---------------------------------- |
-| `network`   | `NetworkKey`    | —       | ✅       | The social network to share to     |
-| `link`      | `string`        | —       | ✅       | The URL to share                   |
-| `text`      | `string`        | `""`    | ❌       | Share text or tweet body           |
-| `subject`   | `string`        | `""`    | ❌       | Email subject (used with `email`)  |
-| `showLabel` | `boolean`       | `true`  | ❌       | Show the network name next to icon |
+| Prop        | Type         | Default            | Required | Description                                                                   |
+| ----------- | ------------ | ------------------ | -------- | ----------------------------------------------------------------------------- |
+| `network`   | `NetworkKey` | —                  | ✅       | The social network to share to                                                |
+| `link`      | `string`     | —                  | ✅       | The URL to share                                                              |
+| `text`      | `string`     | `""`               | ❌       | Share text. Also used for `body` and `title` when those aren't set            |
+| `subject`   | `string`     | `"Check this out"` | ❌       | Email subject (used with `email`)                                             |
+| `body`      | `string`     | `text`             | ❌       | Message body (used with `email` and `sms`)                                    |
+| `title`     | `string`     | `text`             | ❌       | Post title (used with `reddit` and `pinterest`)                               |
+| `media`     | `string`     | `""`               | ❌       | Image URL (used with `pinterest`)                                             |
+| `showLabel` | `boolean`    | `true`             | ❌       | Show the network name. When hidden, the name is used as the link's aria-label |
 
 #### React props
 
@@ -225,7 +228,10 @@ Renders a row (or column) of multiple share buttons.
 | `link`        | `string`            | —       | ✅       | The URL to share                          |
 | `socials`     | `NetworkKey[]`      | all     | ❌       | List of networks to show. Defaults to all |
 | `text`        | `string`            | `""`    | ❌       | Share text passed to every button         |
-| `subject`     | `string`            | `""`    | ❌       | Email subject passed to every button      |
+| `subject`     | `string`            | —       | ❌       | Email subject passed to every button      |
+| `body`        | `string`            | —       | ❌       | Message body passed to every button       |
+| `title`       | `string`            | —       | ❌       | Post title passed to every button         |
+| `media`       | `string`            | —       | ❌       | Image URL passed to every button          |
 | `showLabel`   | `boolean`           | `true`  | ❌       | Show network names on all buttons         |
 | `direction`   | `"row" \| "column"` | `"row"` | ❌       | Flex direction of the button container    |
 | `gap`         | `string`            | `"8px"` | ❌       | Gap between buttons                       |
@@ -288,15 +294,15 @@ Returns the share URL for a single network.
 
 **Parameters:**
 
-| Name              | Type         | Required | Description                    |
-| ----------------- | ------------ | -------- | ------------------------------ |
-| `network`         | `NetworkKey` | ✅       | The social network key         |
-| `options.link`    | `string`     | ✅       | The URL to share               |
-| `options.text`    | `string`     | ❌       | Share text or tweet body       |
-| `options.subject` | `string`     | ❌       | Email subject                  |
-| `options.body`    | `string`     | ❌       | Email body                     |
-| `options.title`   | `string`     | ❌       | Page title (Pinterest, Reddit) |
-| `options.media`   | `string`     | ❌       | Image URL (Pinterest)          |
+| Name              | Type         | Required | Description                                                       |
+| ----------------- | ------------ | -------- | ----------------------------------------------------------------- |
+| `network`         | `NetworkKey` | ✅       | The social network key                                            |
+| `options.link`    | `string`     | ✅       | The URL to share                                                  |
+| `options.text`    | `string`     | ❌       | Share text. Also used for `body` and `title` when those aren't set |
+| `options.subject` | `string`     | ❌       | Email subject. Defaults to `"Check this out"`                      |
+| `options.body`    | `string`     | ❌       | Email and SMS body                                                |
+| `options.title`   | `string`     | ❌       | Post title (Pinterest, Reddit)                                    |
+| `options.media`   | `string`     | ❌       | Image URL (Pinterest)                                             |
 
 **Returns:** `string`
 

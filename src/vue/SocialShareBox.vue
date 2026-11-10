@@ -7,6 +7,9 @@
 			:link="link"
 			:text="text"
 			:subject="subject"
+			:body="body"
+			:title="title"
+			:media="media"
 			:show-label="showLabel"
 			:custom-style="buttonStyle"
 		/>
@@ -26,7 +29,10 @@ export default defineComponent({
 		link: { type: String, required: true },
 		socials: { type: Array as PropType<NetworkKey[]>, default: null },
 		text: { type: String, default: "" },
-		subject: { type: String, default: "" },
+		subject: { type: String, default: undefined },
+		body: { type: String, default: undefined },
+		title: { type: String, default: undefined },
+		media: { type: String, default: undefined },
 		showLabel: { type: Boolean, default: true },
 		direction: { type: String as PropType<"row" | "column">, default: "row" },
 		gap: { type: String, default: "8px" },

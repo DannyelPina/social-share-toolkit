@@ -13,7 +13,10 @@ export function SocialShareBox({
 	link,
 	socials = undefined,
 	text = "",
-	subject = "",
+	subject,
+	body,
+	title,
+	media,
 	showLabel = true,
 	direction = "row",
 	gap = "8px",
@@ -42,6 +45,9 @@ export function SocialShareBox({
 					link={link}
 					text={text}
 					subject={subject}
+					body={body}
+					title={title}
+					media={media}
 					showLabel={showLabel}
 					style={buttonStyle}
 				/>
