@@ -48,7 +48,7 @@ Prettier and lint-staged only cover `src/**/*.{ts,tsx,vue}`, which use tabs. Roo
 
 ## Known gotchas
 
-- The framework APIs differ. Vue `SocialShareButton` takes `customStyle` instead of `style` and has no `className` prop. Vue `SocialShareBox` has neither `style` nor `className` as props. In Vue, native `class` and `style` attributes fall through to the root element. Keep the README's React and Vue prop tables in step with the components.
+- The framework APIs differ. Vue `SocialShareButton` takes `customStyle` instead of `style` and has no `className` prop. Vue `SocialShareBox` has neither `style` nor `className` as props. In Vue, native `class` and `style` attributes fall through to the root element. Both frameworks pass other HTML attributes to the root element: Vue through attribute fallthrough, React through `...rest`. In React, `href` is set after `...rest` so it can't be overridden. Keep the README's React and Vue prop tables in step with the components.
 - Components must render nothing, never throw, for an empty `link` or unknown network. `getShareUrl` throws for both, so check first. Use `isNetworkKey` from `src/core/networks.ts` rather than `networks[key]`, which accepts `Object.prototype` keys like `constructor`.
 - Every `ShareOptions` field is a component prop, and `text` is the fallback for `body` and `title`. Leave `subject` undefined by default so the core's `"Check this out"` applies.
 - The README's CDN section loads the upstream `assisfery/SocialShareJS`, not this package.

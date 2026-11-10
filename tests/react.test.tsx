@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { SocialShareBox, SocialShareButton } from "../src/react/index";
 import type { NetworkKey } from "../src/core/types";
@@ -49,7 +49,71 @@ describe("React SocialShareButton", () => {
 	});
 });
 
+describe("React SocialShareButton attribute forwarding", () => {
+	it("passes extra attributes through to the link", () => {
+		const html = renderToStaticMarkup(
+			<SocialShareButton
+				network="facebook"
+				link={link}
+				id="share"
+				data-track="fb"
+				aria-describedby="hint"
+			/>,
+		);
+		expect(html).toContain('id="share"');
+		expect(html).toContain('data-track="fb"');
+		expect(html).toContain('aria-describedby="hint"');
+	});
+
+	it("lets target, rel and aria-label be overridden", () => {
+		const html = renderToStaticMarkup(
+			<SocialShareButton
+				network="facebook"
+				link={link}
+				showLabel={false}
+				target="_self"
+				rel="nofollow"
+				aria-label="Share this page on Facebook"
+			/>,
+		);
+		expect(html).toContain('target="_self"');
+		expect(html).toContain('rel="nofollow"');
+		expect(html).toContain('aria-label="Share this page on Facebook"');
+	});
+
+	it("always uses the generated href", () => {
+		// href isn't allowed by the types, so cast to simulate untyped (JS) callers
+		const props = {
+			network: "facebook",
+			link,
+			href: "https://evil.test",
+		} as unknown as Parameters<typeof SocialShareButton>[0];
+		expect(renderToStaticMarkup(<SocialShareButton {...props} />)).toContain(
+			'href="https://www.facebook.com/sharer/sharer.php?u=',
+		);
+	});
+
+	it("passes onClick to the link", () => {
+		const onClick = vi.fn();
+		const element = SocialShareButton({ network: "facebook", link, onClick });
+		expect(element?.props.onClick).toBe(onClick);
+	});
+});
+
 describe("React SocialShareBox", () => {
+	it("passes extra attributes through to the wrapper", () => {
+		const html = renderToStaticMarkup(
+			<SocialShareBox
+				link={link}
+				socials={["email"]}
+				id="box"
+				data-x="1"
+				aria-label="Share"
+			/>,
+		);
+		expect(html).toMatch(/<div id="box" data-x="1" aria-label="Share" class="ss-box"/);
+	});
+
 	it("passes share options to every button", () => {
 		const html = renderToStaticMarkup(
 			<SocialShareBox link={link} socials={["email", "reddit"]} text="hi" title="T" />,

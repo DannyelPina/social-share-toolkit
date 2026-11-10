@@ -185,6 +185,8 @@ Renders a single share button for one social network. It renders nothing while `
 | `style`     | `CSSProperties` | `{}`    | ❌       | Override button inline styles |
 | `className` | `string`        | `""`    | ❌       | Add extra CSS class to button |
 
+Any other `<a>` attribute, such as `onClick`, `id`, `aria-*` or `data-*`, is passed through to the link. You can override `target`, `rel` and `aria-label`, but `href` is always generated. `title` sets the share title, not the HTML attribute.
+
 **Example:**
 
 ```tsx
@@ -243,6 +245,8 @@ Renders a row (or column) of multiple share buttons.
 | ----------- | --------------- | ------- | -------- | ------------------------------------- |
 | `className` | `string`        | `""`    | ❌       | Add extra CSS class to the wrapper    |
 | `style`     | `CSSProperties` | `{}`    | ❌       | Override inline styles on the wrapper |
+
+Any other `<div>` attribute, such as `id`, `aria-*` or `data-*`, is passed through to the wrapper.
 
 **Example:**
 
