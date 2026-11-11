@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createSSRApp, h, type Component } from "vue";
 import { renderToString } from "vue/server-renderer";
 import { SocialShareBox, SocialShareButton } from "../src/vue/index";
+import type { NetworkInfo, NetworkKey } from "../src/core/types";
 
 const link = "https://example.com";
 
@@ -70,5 +71,71 @@ describe("Vue SocialShareBox", () => {
 	it("renders an empty wrapper instead of throwing for an empty link", async () => {
 		const html = await render(SocialShareBox, { link: "", socials: ["email"] });
 		expect(html).not.toContain("<a");
+	});
+});
+
+describe("Vue icons and labels", () => {
+	it("renders an icon before the label", async () => {
+		const html = await renderToString(
+			createSSRApp({
+				render: () => h(SocialShareButton, { network: "facebook", link }, () => h("svg")),
+			}),
+		);
+		expect(html).toMatch(/<svg><\/svg>(<!--.*?-->)*<span>Facebook<\/span>/);
+	});
+
+	it("replaces the label and uses it as the accessible name", async () => {
+		expect(
+			await render(SocialShareButton, {
+				network: "facebook",
+				link,
+				label: "Share on Facebook",
+			}),
+		).toContain("<span>Share on Facebook</span>");
+		expect(
+			await render(SocialShareButton, {
+				network: "facebook",
+				link,
+				label: "Share",
+				showLabel: false,
+			}),
+		).toContain('aria-label="Share"');
+	});
+
+	it("falls back to the network name for an empty label", async () => {
+		expect(await render(SocialShareButton, { network: "sms", link, label: "" })).toContain(
+			"<span>SMS</span>",
+		);
+	});
+
+	it("renders an icon and label for every box button", async () => {
+		const html = await renderToString(
+			createSSRApp({
+				render: () =>
+					h(
+						SocialShareBox,
+						{
+							link,
+							socials: ["reddit", "nope", "email"] as NetworkKey[],
+							getLabel: (n: NetworkInfo) => `Share on ${n.label}`,
+						},
+						{
+							icon: ({ network }: { network: NetworkInfo }) =>
+								h("i", { "data-icon": network.key }),
+						},
+					),
+			}),
+		);
+		expect(html).toMatch(
+			/<i data-icon="reddit"><\/i>(<!--.*?-->)*<span>Share on Reddit<\/span>/,
+		);
+		expect(html).toMatch(/<i data-icon="email"><\/i>(<!--.*?-->)*<span>Share on Email<\/span>/);
+		expect(html.indexOf("reddit")).toBeLessThan(html.indexOf("mailto"));
+		expect(html).not.toContain("nope");
+	});
+
+	it("renders no icon markup when the icon slot is unused", async () => {
+		const html = await render(SocialShareBox, { link, socials: ["email"] });
+		expect(html).not.toContain("<i");
 	});
 });

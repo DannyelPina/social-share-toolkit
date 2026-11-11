@@ -18,6 +18,7 @@ A simple, lightweight, and fully typed library to make your web page shareable f
 - [Components](#components)
     - [SocialShareButton](#socialsharebutton-props)
     - [SocialShareBox](#socialsharebox-props)
+- [Icons](#icons)
 - [Core API](#core-api)
     - [getShareUrl](#getshareurlnetwork-options)
     - [getShareUrls](#getshareurlsnetworks-options)
@@ -167,16 +168,17 @@ export default defineComponent({
 
 Renders a single share button for one social network. It renders nothing while `link` is empty or if `network` isn't supported.
 
-| Prop        | Type         | Default            | Required | Description                                                                   |
-| ----------- | ------------ | ------------------ | -------- | ----------------------------------------------------------------------------- |
-| `network`   | `NetworkKey` | —                  | ✅       | The social network to share to                                                |
-| `link`      | `string`     | —                  | ✅       | The URL to share                                                              |
-| `text`      | `string`     | `""`               | ❌       | Share text. Also used for `body` and `title` when those aren't set            |
-| `subject`   | `string`     | `"Check this out"` | ❌       | Email subject (used with `email`)                                             |
-| `body`      | `string`     | `text`             | ❌       | Message body (used with `email` and `sms`)                                    |
-| `title`     | `string`     | `text`             | ❌       | Post title (used with `reddit` and `pinterest`)                               |
-| `media`     | `string`     | `""`               | ❌       | Image URL (used with `pinterest`)                                             |
-| `showLabel` | `boolean`    | `true`             | ❌       | Show the network name. When hidden, the name is used as the link's aria-label |
+| Prop        | Type         | Default            | Required | Description                                                             |
+| ----------- | ------------ | ------------------ | -------- | ----------------------------------------------------------------------- |
+| `network`   | `NetworkKey` | —                  | ✅       | The social network to share to                                          |
+| `link`      | `string`     | —                  | ✅       | The URL to share                                                        |
+| `text`      | `string`     | `""`               | ❌       | Share text. Also used for `body` and `title` when those aren't set      |
+| `subject`   | `string`     | `"Check this out"` | ❌       | Email subject (used with `email`)                                       |
+| `body`      | `string`     | `text`             | ❌       | Message body (used with `email` and `sms`)                              |
+| `title`     | `string`     | `text`             | ❌       | Post title (used with `reddit` and `pinterest`)                         |
+| `media`     | `string`     | `""`               | ❌       | Image URL (used with `pinterest`)                                       |
+| `showLabel` | `boolean`    | `true`             | ❌       | Show the label. When hidden, the label is used as the link's aria-label |
+| `label`     | `string`     | network name       | ❌       | Replaces the network name, e.g. `"Share on Facebook"`                   |
 
 #### React props
 
@@ -225,26 +227,28 @@ The native `class` and `style` attributes are also applied to the button's `<a>`
 
 Renders a row (or column) of multiple share buttons.
 
-| Prop          | Type                | Default | Required | Description                               |
-| ------------- | ------------------- | ------- | -------- | ----------------------------------------- |
-| `link`        | `string`            | —       | ✅       | The URL to share                          |
-| `socials`     | `NetworkKey[]`      | all     | ❌       | List of networks to show. Defaults to all |
-| `text`        | `string`            | `""`    | ❌       | Share text passed to every button         |
-| `subject`     | `string`            | —       | ❌       | Email subject passed to every button      |
-| `body`        | `string`            | —       | ❌       | Message body passed to every button       |
-| `title`       | `string`            | —       | ❌       | Post title passed to every button         |
-| `media`       | `string`            | —       | ❌       | Image URL passed to every button          |
-| `showLabel`   | `boolean`           | `true`  | ❌       | Show network names on all buttons         |
-| `direction`   | `"row" \| "column"` | `"row"` | ❌       | Flex direction of the button container    |
-| `gap`         | `string`            | `"8px"` | ❌       | Gap between buttons                       |
-| `buttonStyle` | `CSSProperties`     | `{}`    | ❌       | Override inline styles on every button    |
+| Prop          | Type                               | Default      | Required | Description                               |
+| ------------- | ---------------------------------- | ------------ | -------- | ----------------------------------------- |
+| `link`        | `string`                           | —            | ✅       | The URL to share                          |
+| `socials`     | `NetworkKey[]`                     | all          | ❌       | List of networks to show. Defaults to all |
+| `text`        | `string`                           | `""`         | ❌       | Share text passed to every button         |
+| `subject`     | `string`                           | —            | ❌       | Email subject passed to every button      |
+| `body`        | `string`                           | —            | ❌       | Message body passed to every button       |
+| `title`       | `string`                           | —            | ❌       | Post title passed to every button         |
+| `media`       | `string`                           | —            | ❌       | Image URL passed to every button          |
+| `showLabel`   | `boolean`                          | `true`       | ❌       | Show labels on all buttons                |
+| `getLabel`    | `(network: NetworkInfo) => string` | network name | ❌       | Returns each button's label               |
+| `direction`   | `"row" \| "column"`                | `"row"`      | ❌       | Flex direction of the button container    |
+| `gap`         | `string`                           | `"8px"`      | ❌       | Gap between buttons                       |
+| `buttonStyle` | `CSSProperties`                    | `{}`         | ❌       | Override inline styles on every button    |
 
 #### React props
 
-| Prop        | Type            | Default | Required | Description                           |
-| ----------- | --------------- | ------- | -------- | ------------------------------------- |
-| `className` | `string`        | `""`    | ❌       | Add extra CSS class to the wrapper    |
-| `style`     | `CSSProperties` | `{}`    | ❌       | Override inline styles on the wrapper |
+| Prop         | Type                                  | Default | Required | Description                                       |
+| ------------ | ------------------------------------- | ------- | -------- | ------------------------------------------------- |
+| `className`  | `string`                              | `""`    | ❌       | Add extra CSS class to the wrapper                |
+| `style`      | `CSSProperties`                       | `{}`    | ❌       | Override inline styles on the wrapper             |
+| `renderIcon` | `(network: NetworkInfo) => ReactNode` | —       | ❌       | Returns the icon shown before each button's label |
 
 Any other `<div>` attribute, such as `id`, `aria-*` or `data-*`, is passed through to the wrapper.
 
@@ -264,7 +268,7 @@ Any other `<div>` attribute, such as `id`, `aria-*` or `data-*`, is passed throu
 
 #### Vue props
 
-Vue has no extra props for `SocialShareBox`. To style the wrapper, use the native `class` and `style` attributes, which are applied to its `<div>` element.
+Vue has no extra props for `SocialShareBox`. To style the wrapper, use the native `class` and `style` attributes, which are applied to its `<div>` element. To add icons, use the `icon` slot, which receives `{ network: NetworkInfo }` and is rendered before each button's label.
 
 **Example:**
 
@@ -279,6 +283,56 @@ Vue has no extra props for `SocialShareBox`. To style the wrapper, use the nativ
 	:button-style="{ borderRadius: '8px', fontSize: '13px' }"
 />
 ```
+
+---
+
+## Icons
+
+The package doesn't ship icons, so you can use any icon library or inline SVG. An icon is rendered before the label, and the button's `inline-flex` layout and `6px` gap line them up. Set `showLabel` to `false` for icon-only buttons; the label then becomes the link's `aria-label`.
+
+**Single button:** pass the icon as children (React) or in the default slot (Vue).
+
+```tsx
+<SocialShareButton network="facebook" link="https://example.com" label="Share on Facebook">
+	<FacebookIcon size={16} />
+</SocialShareButton>
+```
+
+```vue
+<SocialShareButton network="facebook" link="https://example.com" label="Share on Facebook">
+	<FacebookIcon :size="16" />
+</SocialShareButton>
+```
+
+**Share box:** return an icon for each network with `renderIcon` (React) or the `icon` slot (Vue). Each receives the network's `NetworkInfo` (`key`, `label` and `color`).
+
+```tsx
+const icons: Record<NetworkKey, ReactNode> = {
+	facebook: <FacebookIcon />,
+	twitter: <XIcon /> /* ... */,
+};
+
+<SocialShareBox
+	link="https://example.com"
+	socials={["facebook", "twitter"]}
+	renderIcon={(network) => icons[network.key]}
+	getLabel={(network) => `Share on ${network.label}`}
+/>;
+```
+
+```vue
+<SocialShareBox
+	link="https://example.com"
+	:socials="['facebook', 'twitter']"
+	:get-label="(network) => `Share on ${network.label}`"
+>
+	<template #icon="{ network }">
+		<component :is="icons[network.key]" />
+	</template>
+</SocialShareBox>
+```
+
+To put the icon after the label, reverse the button's flex direction with `style={{ flexDirection: "row-reverse" }}` (React) or `:custom-style="{ flexDirection: 'row-reverse' }"` (Vue), or with `buttonStyle` on the box.
 
 ---
 
@@ -298,15 +352,15 @@ Returns the share URL for a single network.
 
 **Parameters:**
 
-| Name              | Type         | Required | Description                                                       |
-| ----------------- | ------------ | -------- | ----------------------------------------------------------------- |
-| `network`         | `NetworkKey` | ✅       | The social network key                                            |
-| `options.link`    | `string`     | ✅       | The URL to share                                                  |
+| Name              | Type         | Required | Description                                                        |
+| ----------------- | ------------ | -------- | ------------------------------------------------------------------ |
+| `network`         | `NetworkKey` | ✅       | The social network key                                             |
+| `options.link`    | `string`     | ✅       | The URL to share                                                   |
 | `options.text`    | `string`     | ❌       | Share text. Also used for `body` and `title` when those aren't set |
 | `options.subject` | `string`     | ❌       | Email subject. Defaults to `"Check this out"`                      |
-| `options.body`    | `string`     | ❌       | Email and SMS body                                                |
-| `options.title`   | `string`     | ❌       | Post title (Pinterest, Reddit)                                    |
-| `options.media`   | `string`     | ❌       | Image URL (Pinterest)                                             |
+| `options.body`    | `string`     | ❌       | Email and SMS body                                                 |
+| `options.title`   | `string`     | ❌       | Post title (Pinterest, Reddit)                                     |
+| `options.media`   | `string`     | ❌       | Image URL (Pinterest)                                              |
 
 **Returns:** `string`
 

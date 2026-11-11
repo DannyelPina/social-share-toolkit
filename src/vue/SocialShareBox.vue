@@ -1,9 +1,9 @@
 <template>
 	<div class="ss-box" :style="boxStyle">
 		<SocialShareButton
-			v-for="key in resolvedNetworks"
-			:key="key"
-			:network="key"
+			v-for="item in items"
+			:key="item.key"
+			:network="item.key"
 			:link="link"
 			:text="text"
 			:subject="subject"
@@ -11,8 +11,11 @@
 			:title="title"
 			:media="media"
 			:show-label="showLabel"
+			:label="getLabel ? getLabel(item) : undefined"
 			:custom-style="buttonStyle"
-		/>
+		>
+			<slot name="icon" :network="item" />
+		</SocialShareButton>
 	</div>
 </template>
 
@@ -20,7 +23,7 @@
 import { defineComponent, computed, PropType, CSSProperties } from "vue";
 import SocialShareButton from "./SocialShareButton.vue";
 import { getSupportedNetworks } from "../core/index";
-import type { NetworkKey } from "../core/types";
+import type { NetworkInfo, NetworkKey } from "../core/types";
 
 export default defineComponent({
 	name: "SocialShareBox",
@@ -34,14 +37,22 @@ export default defineComponent({
 		title: { type: String, default: undefined },
 		media: { type: String, default: undefined },
 		showLabel: { type: Boolean, default: true },
+		getLabel: {
+			type: Function as PropType<(network: NetworkInfo) => string>,
+			default: undefined,
+		},
 		direction: { type: String as PropType<"row" | "column">, default: "row" },
 		gap: { type: String, default: "8px" },
 		buttonStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
 	},
 	setup(props) {
-		const resolvedNetworks = computed<NetworkKey[]>(
-			() => props.socials ?? getSupportedNetworks().map((n) => n.key),
-		);
+		// Unknown keys are dropped here; SocialShareButton would render nothing for them anyway
+		const items = computed<NetworkInfo[]>(() => {
+			const supported = getSupportedNetworks();
+			return props.socials
+				? props.socials.flatMap((key) => supported.filter((n) => n.key === key))
+				: supported;
+		});
 
 		const boxStyle = computed<CSSProperties>(() => ({
 			display: "flex",
@@ -50,7 +61,7 @@ export default defineComponent({
 			gap: props.gap,
 		}));
 
-		return { resolvedNetworks, boxStyle };
+		return { items, boxStyle };
 	},
 });
 </script>

@@ -41,6 +41,8 @@ export interface SocialShareButtonProps {
 	title?: string;
 	media?: string;
 	showLabel?: boolean;
+	// Replaces the network name, e.g. "Share on Facebook"
+	label?: string;
 }
 
 // Props shared by both React and Vue box components
@@ -53,6 +55,8 @@ export interface SocialShareBoxProps {
 	title?: string;
 	media?: string;
 	showLabel?: boolean;
+	// Returns each button's label. Defaults to the network name
+	getLabel?: (network: NetworkInfo) => string;
 	direction?: "row" | "column";
 	gap?: string;
 }

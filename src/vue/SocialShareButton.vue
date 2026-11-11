@@ -6,10 +6,10 @@
 		rel="noopener noreferrer"
 		:class="`ss-btn ss-${network}`"
 		:style="buttonStyle"
-		:aria-label="showLabel ? undefined : meta?.label"
+		:aria-label="showLabel ? undefined : name"
 	>
 		<slot />
-		<span v-if="showLabel">{{ meta?.label }}</span>
+		<span v-if="showLabel">{{ name }}</span>
 	</a>
 </template>
 
@@ -30,10 +30,13 @@ export default defineComponent({
 		title: { type: String, default: undefined },
 		media: { type: String, default: undefined },
 		showLabel: { type: Boolean, default: true },
+		label: { type: String, default: undefined },
 		customStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
 	},
 	setup(props) {
 		const meta = computed(() => (isNetworkKey(props.network) ? networks[props.network] : null));
+
+		const name = computed(() => props.label || meta.value?.label);
 
 		// Render nothing rather than throw, e.g. while link is still loading
 		const shareUrl = computed(() =>
@@ -65,7 +68,7 @@ export default defineComponent({
 			...props.customStyle,
 		}));
 
-		return { meta, shareUrl, buttonStyle };
+		return { name, shareUrl, buttonStyle };
 	},
 });
 </script>

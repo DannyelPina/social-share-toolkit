@@ -1,7 +1,7 @@
-import React, { CSSProperties, HTMLAttributes } from "react";
+import React, { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { SocialShareButton } from "./SocialShareButton";
 import { getSupportedNetworks } from "../core/index";
-import type { SocialShareBoxProps } from "../core/types";
+import type { NetworkInfo, SocialShareBoxProps } from "../core/types";
 
 // Other <div> attributes (aria-*, data-*, id, ...) are passed through to the wrapper.
 // title is the share title rather than the HTML attribute.
@@ -9,6 +9,8 @@ type DivAttributes = Omit<HTMLAttributes<HTMLDivElement>, keyof SocialShareBoxPr
 
 interface Props extends SocialShareBoxProps, DivAttributes {
 	buttonStyle?: CSSProperties;
+	// Returns the icon rendered before each button's label
+	renderIcon?: (network: NetworkInfo) => ReactNode;
 	className?: string;
 	style?: CSSProperties;
 }
@@ -22,15 +24,20 @@ export function SocialShareBox({
 	title,
 	media,
 	showLabel = true,
+	getLabel,
 	direction = "row",
 	gap = "8px",
 	buttonStyle = {},
+	renderIcon,
 	className = "",
 	style = {},
 	...rest
 }: Props) {
-	const allKeys = getSupportedNetworks().map((n) => n.key);
-	const keys = socials ?? allKeys;
+	const supported = getSupportedNetworks();
+	// Unknown keys are dropped here; SocialShareButton would render nothing for them anyway
+	const items = socials
+		? socials.flatMap((key) => supported.filter((n) => n.key === key))
+		: supported;
 
 	return (
 		<div
@@ -44,10 +51,10 @@ export function SocialShareBox({
 				...style,
 			}}
 		>
-			{keys.map((key) => (
+			{items.map((item) => (
 				<SocialShareButton
-					key={key}
-					network={key}
+					key={item.key}
+					network={item.key}
 					link={link}
 					text={text}
 					subject={subject}
@@ -55,8 +62,11 @@ export function SocialShareBox({
 					title={title}
 					media={media}
 					showLabel={showLabel}
+					label={getLabel?.(item)}
 					style={buttonStyle}
-				/>
+				>
+					{renderIcon?.(item)}
+				</SocialShareButton>
 			))}
 		</div>
 	);

@@ -25,6 +25,7 @@ export function SocialShareButton({
 	title,
 	media,
 	showLabel = true,
+	label,
 	style = {},
 	className = "",
 	children,
@@ -33,6 +34,7 @@ export function SocialShareButton({
 	// Render nothing rather than throw, e.g. while link is still loading
 	if (!isNetworkKey(network) || !link) return null;
 	const meta = networks[network];
+	const name = label || meta.label;
 
 	const href = getShareUrl(network, { link, text, subject, body, title, media });
 
@@ -56,14 +58,14 @@ export function SocialShareButton({
 		<a
 			target="_blank"
 			rel="noopener noreferrer"
-			aria-label={showLabel ? undefined : meta.label}
+			aria-label={showLabel ? undefined : name}
 			{...rest}
 			href={href}
 			style={baseStyle}
 			className={`ss-btn ss-${network} ${className}`.trim()}
 		>
 			{children}
-			{showLabel && <span>{meta.label}</span>}
+			{showLabel && <span>{name}</span>}
 		</a>
 	);
 }
