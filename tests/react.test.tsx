@@ -127,3 +127,52 @@ describe("React SocialShareBox", () => {
 		expect(html).not.toContain("<a");
 	});
 });
+
+describe("React icons and labels", () => {
+	it("renders an icon before the label", () => {
+		const html = renderToStaticMarkup(
+			<SocialShareButton network="facebook" link={link}>
+				<svg />
+			</SocialShareButton>,
+		);
+		expect(html).toContain("<svg></svg><span>Facebook</span>");
+	});
+
+	it("replaces the label and uses it as the accessible name", () => {
+		expect(
+			renderToStaticMarkup(
+				<SocialShareButton network="facebook" link={link} label="Share on Facebook" />,
+			),
+		).toContain("<span>Share on Facebook</span>");
+		expect(
+			renderToStaticMarkup(
+				<SocialShareButton
+					network="facebook"
+					link={link}
+					label="Share"
+					showLabel={false}
+				/>,
+			),
+		).toContain('aria-label="Share"');
+	});
+
+	it("falls back to the network name for an empty label", () => {
+		const html = renderToStaticMarkup(<SocialShareButton network="sms" link={link} label="" />);
+		expect(html).toContain("<span>SMS</span>");
+	});
+
+	it("renders an icon and label for every box button", () => {
+		const html = renderToStaticMarkup(
+			<SocialShareBox
+				link={link}
+				socials={["reddit", "nope" as NetworkKey, "email"]}
+				renderIcon={(n) => <i data-icon={n.key} />}
+				getLabel={(n) => `Share on ${n.label}`}
+			/>,
+		);
+		expect(html).toContain('<i data-icon="reddit"></i><span>Share on Reddit</span>');
+		expect(html).toContain('<i data-icon="email"></i><span>Share on Email</span>');
+		expect(html.indexOf("reddit")).toBeLessThan(html.indexOf("mailto"));
+		expect(html).not.toContain("nope");
+	});
+});
